@@ -3,7 +3,7 @@ import type { ModuleNode, ImportEdge } from '../types/graph';
 const NODE_WIDTH = 180;
 const BASE_NODE_HEIGHT = 60;
 const EXPORT_ROW_HEIGHT = 18;
-const H_GAP = 120;
+const H_GAP = 200;
 const V_GAP = 120;
 
 function getNodeHeight(node: ModuleNode): number {

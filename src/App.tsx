@@ -8,12 +8,15 @@ import { examples } from './data/examples';
 
 export default function App() {
   const loadExample = useGraphStore((s) => s.loadExample);
+  const runBundler = useGraphStore((s) => s.runBundler);
   const hasNodes = useGraphStore((s) => s.nodes.length > 0);
 
   useEffect(() => {
     if (!hasNodes) {
       const example = examples[1]; // Lazy-Loaded Routes
       loadExample(example.nodes, example.edges);
+      // Run bundler after a tick so the store has the loaded nodes
+      queueMicrotask(() => runBundler());
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -22,10 +25,10 @@ export default function App() {
       <div className="h-screen w-screen flex flex-col bg-[#0a0a0a] text-white font-sans">
         <Toolbar />
         <div className="flex-1 flex min-h-0">
-          <div className="flex-[65] min-w-0">
+          <div className="flex-1 min-w-0">
             <GraphEditor />
           </div>
-          <div className="flex-[35] min-w-0">
+          <div className="w-[380px] shrink-0 min-w-0">
             <ChunkPanel />
           </div>
         </div>

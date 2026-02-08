@@ -137,7 +137,6 @@ export function ModuleNode({ id, data }: NodeProps<ModuleNodeType>) {
         background: data.isUnreachable
           ? '#1a1a1a'
           : `linear-gradient(to bottom, #111111, #111111) padding-box, linear-gradient(to bottom, ${chunkOverlay}, ${chunkOverlay}) border-box`,
-        backgroundColor: '#111111',
         opacity: isDimmed ? 0.3 : data.isUnreachable ? 0.5 : 1,
         transform: isHighlighted && !data.isUnreachable ? 'scale(1)' : 'scale(0.97)',
         minWidth: 180,
