@@ -12,7 +12,6 @@ export function ChunkPanel() {
     exports: n.data.exports,
   }));
 
-  // Compute global tree shaking summary
   let totalRemoved = 0;
   let modulesWithRemoved = 0;
   if (bundleResult) {

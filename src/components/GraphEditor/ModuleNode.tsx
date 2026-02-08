@@ -45,7 +45,6 @@ export function ModuleNode({ id, data }: NodeProps<ModuleNodeType>) {
     }
   }, [isEditingExports]);
 
-  // Click-outside handler for exports editing
   useEffect(() => {
     if (!isEditingExports) return;
     const handleMouseDown = (e: MouseEvent) => {
@@ -121,7 +120,6 @@ export function ModuleNode({ id, data }: NodeProps<ModuleNodeType>) {
 
   const chunkOverlay = data.chunkColor ? `${data.chunkColor}20` : 'transparent';
 
-  // Summary pill color
   let pillColor = '#888';
   if (treeShaking && totalCount > 0) {
     if (usedCount === 0) pillColor = '#ef4444';
@@ -171,7 +169,6 @@ export function ModuleNode({ id, data }: NodeProps<ModuleNodeType>) {
         )}
       </div>
 
-      {/* Exports section */}
       {(hasExports || isEditingExports) && (
         <>
           <div className="mx-3 border-t border-[#2a2a2a]" />

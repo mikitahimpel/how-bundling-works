@@ -12,10 +12,6 @@ function getNodeHeight(node: ModuleNode): number {
   return BASE_NODE_HEIGHT + exportsCount * EXPORT_ROW_HEIGHT;
 }
 
-/**
- * Simple top-down layered layout using BFS ranking.
- * No external dependencies needed.
- */
 export function getLayoutedElements(
   nodes: ModuleNode[],
   edges: ImportEdge[],
@@ -71,7 +67,6 @@ export function getLayoutedElements(
     if (!rank.has(n.id)) rank.set(n.id, 0);
   }
 
-  // Group nodes by rank
   const layers = new Map<number, string[]>();
   for (const n of nodes) {
     const r = rank.get(n.id)!;
@@ -79,7 +74,6 @@ export function getLayoutedElements(
     layers.get(r)!.push(n.id);
   }
 
-  // Build a node map for height lookups
   const nodeMap = new Map<string, ModuleNode>();
   for (const n of nodes) {
     nodeMap.set(n.id, n);
@@ -96,7 +90,6 @@ export function getLayoutedElements(
     cumulativeY += maxHeight + V_GAP;
   }
 
-  // Position nodes
   const positions = new Map<string, { x: number; y: number }>();
   const maxLayerWidth = Math.max(...[...layers.values()].map((l) => l.length));
   const totalWidth = maxLayerWidth * (NODE_WIDTH + H_GAP) - H_GAP;

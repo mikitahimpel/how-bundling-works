@@ -13,9 +13,8 @@ export default function App() {
 
   useEffect(() => {
     if (!hasNodes) {
-      const example = examples[1]; // Lazy-Loaded Routes
+      const example = examples[1];
       loadExample(example.nodes, example.edges);
-      // Run bundler after a tick so the store has the loaded nodes
       queueMicrotask(() => runBundler());
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
