@@ -1,59 +1,94 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <rect width="1200" height="630" fill="#0a0a0a"/>
 
-  <!-- Grid dots -->
   <pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
     <circle cx="10" cy="10" r="0.8" fill="#222"/>
   </pattern>
   <rect width="1200" height="630" fill="url(#dots)"/>
 
-  <!-- Entry node -->
-  <rect x="460" y="60" width="280" height="80" rx="8" fill="#111" stroke="#facc15" stroke-width="2"/>
-  <rect x="545" y="42" width="110" height="22" rx="11" fill="#facc15"/>
-  <text x="600" y="57" text-anchor="middle" font-family="monospace" font-size="11" font-weight="700" fill="#000">ENTRY</text>
-  <text x="600" y="105" text-anchor="middle" font-family="monospace" font-size="16" font-weight="600" fill="#fff">App.tsx</text>
+  <!-- Entry node: App.tsx -->
+  <rect x="430" y="42" width="340" height="105" rx="8" fill="#111" stroke="#facc15" stroke-width="2"/>
+  <rect x="545" y="24" width="110" height="22" rx="11" fill="#facc15"/>
+  <text x="600" y="39" text-anchor="middle" font-family="monospace" font-size="11" font-weight="700" fill="#000">ENTRY</text>
+  <text x="600" y="78" text-anchor="middle" font-family="monospace" font-size="16" font-weight="600" fill="#fff">App.tsx</text>
+  <text x="480" y="100" font-family="monospace" font-size="11" fill="#22c55e">export</text>
+  <text x="525" y="100" font-family="monospace" font-size="11" fill="#888">default</text>
+  <rect x="470" y="112" width="100" height="18" rx="9" fill="#22c55e20"/>
+  <text x="520" y="125" text-anchor="middle" font-family="monospace" font-size="10" fill="#22c55e">1/1 used</text>
 
-  <!-- Static edge to Nav -->
-  <line x1="530" y1="140" x2="280" y2="210" stroke="#555" stroke-width="2"/>
-  <rect x="340" y="160" width="130" height="24" rx="12" fill="#1a1a1a" stroke="#333" stroke-width="1"/>
-  <text x="405" y="176" text-anchor="middle" font-family="monospace" font-size="10" fill="#a0a0a0">import default</text>
+  <!-- Static edge: App -> Nav -->
+  <path d="M 500 147 L 500 175 L 200 175 L 200 220" stroke="#555" stroke-width="2" fill="none"/>
+  <polygon points="194,218 200,230 206,218" fill="#555"/>
+  <rect x="290" y="163" width="170" height="24" rx="12" fill="#1a1a1a" stroke="#333" stroke-width="1"/>
+  <text x="375" y="179" text-anchor="middle" font-family="monospace" font-size="10" fill="#a0a0a0">import { default }</text>
 
-  <!-- Dynamic edge to Dashboard -->
-  <line x1="600" y1="140" x2="600" y2="210" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8 4"/>
-  <rect x="530" y="160" width="140" height="24" rx="12" fill="#1f1709" stroke="#5c3a06" stroke-width="1"/>
-  <text x="600" y="176" text-anchor="middle" font-family="monospace" font-size="10" fill="#f59e0b">import() default</text>
+  <!-- Dynamic edge: App -> Dashboard -->
+  <path d="M 600 147 L 600 230" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8 4" fill="none"/>
+  <polygon points="594,228 600,240 606,228" fill="#f59e0b"/>
+  <rect x="510" y="173" width="180" height="24" rx="12" fill="#1f1709" stroke="#5c3a06" stroke-width="1"/>
+  <text x="600" y="189" text-anchor="middle" font-family="monospace" font-size="10" fill="#f59e0b">import() { default }</text>
 
-  <!-- Dynamic edge to Settings -->
-  <line x1="670" y1="140" x2="920" y2="210" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8 4"/>
-  <rect x="730" y="160" width="140" height="24" rx="12" fill="#1f1709" stroke="#5c3a06" stroke-width="1"/>
-  <text x="800" y="176" text-anchor="middle" font-family="monospace" font-size="10" fill="#f59e0b">import() default</text>
+  <!-- Dynamic edge: App -> Settings -->
+  <path d="M 700 147 L 700 175 L 1000 175 L 1000 220" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8 4" fill="none"/>
+  <polygon points="994,218 1000,230 1006,218" fill="#f59e0b"/>
+  <rect x="790" y="163" width="180" height="24" rx="12" fill="#1f1709" stroke="#5c3a06" stroke-width="1"/>
+  <text x="880" y="179" text-anchor="middle" font-family="monospace" font-size="10" fill="#f59e0b">import() { default }</text>
 
-  <!-- Nav node (blue chunk) -->
-  <rect x="140" y="210" width="280" height="70" rx="8" fill="#111" stroke="#3b82f6" stroke-width="2"/>
-  <text x="280" y="250" text-anchor="middle" font-family="monospace" font-size="15" font-weight="600" fill="#fff">Nav.tsx</text>
+  <!-- Nav node (blue/main chunk) -->
+  <rect x="60" y="230" width="280" height="105" rx="8" fill="#111" stroke="#3b82f6" stroke-width="2"/>
+  <text x="200" y="262" text-anchor="middle" font-family="monospace" font-size="15" font-weight="600" fill="#fff">Nav.tsx</text>
+  <line x1="85" y1="274" x2="315" y2="274" stroke="#2a2a2a" stroke-width="1"/>
+  <text x="100" y="293" font-family="monospace" font-size="11" fill="#22c55e">export</text>
+  <text x="145" y="293" font-family="monospace" font-size="11" fill="#e0e0e0">default</text>
+  <rect x="90" y="302" width="100" height="18" rx="9" fill="#22c55e20"/>
+  <text x="140" y="315" text-anchor="middle" font-family="monospace" font-size="10" fill="#22c55e">1/1 used</text>
 
-  <!-- Dashboard node (green chunk) -->
-  <rect x="460" y="210" width="280" height="70" rx="8" fill="#111" stroke="#10b981" stroke-width="2"/>
-  <text x="600" y="250" text-anchor="middle" font-family="monospace" font-size="15" font-weight="600" fill="#fff">Dashboard.tsx</text>
+  <!-- Dashboard node (green/async chunk) -->
+  <rect x="400" y="240" width="340" height="105" rx="8" fill="#111" stroke="#10b981" stroke-width="2"/>
+  <text x="570" y="272" text-anchor="middle" font-family="monospace" font-size="15" font-weight="600" fill="#fff">Dashboard.tsx</text>
+  <line x1="425" y1="284" x2="715" y2="284" stroke="#2a2a2a" stroke-width="1"/>
+  <text x="440" y="303" font-family="monospace" font-size="11" fill="#22c55e">export</text>
+  <text x="485" y="303" font-family="monospace" font-size="11" fill="#e0e0e0">default</text>
+  <rect x="430" y="312" width="100" height="18" rx="9" fill="#22c55e20"/>
+  <text x="480" y="325" text-anchor="middle" font-family="monospace" font-size="10" fill="#22c55e">1/1 used</text>
 
-  <!-- Settings node (orange chunk) -->
-  <rect x="780" y="210" width="280" height="70" rx="8" fill="#111" stroke="#f97316" stroke-width="2"/>
-  <text x="920" y="250" text-anchor="middle" font-family="monospace" font-size="15" font-weight="600" fill="#fff">Settings.tsx</text>
+  <!-- Settings node (orange/async chunk) -->
+  <rect x="860" y="230" width="280" height="105" rx="8" fill="#111" stroke="#f97316" stroke-width="2"/>
+  <text x="1000" y="262" text-anchor="middle" font-family="monospace" font-size="15" font-weight="600" fill="#fff">Settings.tsx</text>
+  <line x1="885" y1="274" x2="1115" y2="274" stroke="#2a2a2a" stroke-width="1"/>
+  <text x="900" y="293" font-family="monospace" font-size="11" fill="#22c55e">export</text>
+  <text x="945" y="293" font-family="monospace" font-size="11" fill="#e0e0e0">default</text>
+  <rect x="890" y="302" width="100" height="18" rx="9" fill="#22c55e20"/>
+  <text x="940" y="315" text-anchor="middle" font-family="monospace" font-size="10" fill="#22c55e">1/1 used</text>
 
-  <!-- Chart node -->
-  <line x1="600" y1="280" x2="600" y2="330" stroke="#555" stroke-width="2"/>
-  <rect x="460" y="330" width="280" height="70" rx="8" fill="#111" stroke="#10b981" stroke-width="2"/>
-  <text x="600" y="370" text-anchor="middle" font-family="monospace" font-size="15" font-weight="600" fill="#fff">Chart.tsx</text>
+  <!-- Static edge: Dashboard -> Chart -->
+  <path d="M 570 345 L 570 380" stroke="#555" stroke-width="2" fill="none"/>
+  <polygon points="564,378 570,390 576,378" fill="#555"/>
+  <rect x="580" y="355" width="170" height="24" rx="12" fill="#1a1a1a" stroke="#333" stroke-width="1"/>
+  <text x="665" y="371" text-anchor="middle" font-family="monospace" font-size="10" fill="#a0a0a0">import { default }</text>
+
+  <!-- Chart node (green/async chunk) with tree shaking -->
+  <rect x="400" y="390" width="340" height="120" rx="8" fill="#111" stroke="#10b981" stroke-width="2"/>
+  <text x="570" y="422" text-anchor="middle" font-family="monospace" font-size="15" font-weight="600" fill="#fff">Chart.tsx</text>
+  <line x1="425" y1="434" x2="715" y2="434" stroke="#2a2a2a" stroke-width="1"/>
+  <text x="440" y="453" font-family="monospace" font-size="11" fill="#22c55e">export</text>
+  <text x="485" y="453" font-family="monospace" font-size="11" fill="#e0e0e0">default</text>
+  <text x="440" y="471" font-family="monospace" font-size="11" fill="#22c55e">export</text>
+  <text x="485" y="471" font-family="monospace" font-size="11" fill="#555" text-decoration="line-through">ChartOptions</text>
+  <rect x="430" y="480" width="100" height="18" rx="9" fill="#22c55e20"/>
+  <text x="480" y="493" text-anchor="middle" font-family="monospace" font-size="10" fill="#22c55e">1/2 used</text>
 
   <!-- Chunk legend -->
-  <rect x="80" y="440" width="16" height="16" rx="3" fill="#3b82f6"/>
-  <text x="104" y="453" font-family="monospace" font-size="12" fill="#888">Main Bundle</text>
-  <rect x="220" y="440" width="16" height="16" rx="3" fill="#10b981"/>
-  <text x="244" y="453" font-family="monospace" font-size="12" fill="#888">Async Chunk</text>
-  <rect x="380" y="440" width="16" height="16" rx="3" fill="#f97316"/>
-  <text x="404" y="453" font-family="monospace" font-size="12" fill="#888">Async Chunk</text>
+  <rect x="80" y="545" width="14" height="14" rx="3" fill="#3b82f6"/>
+  <text x="102" y="557" font-family="monospace" font-size="12" fill="#888">Main Bundle</text>
+  <rect x="230" y="545" width="14" height="14" rx="3" fill="#10b981"/>
+  <text x="252" y="557" font-family="monospace" font-size="12" fill="#888">Async Chunk</text>
+  <rect x="390" y="545" width="14" height="14" rx="3" fill="#f97316"/>
+  <text x="412" y="557" font-family="monospace" font-size="12" fill="#888">Async Chunk</text>
 
   <!-- Title -->
-  <text x="600" y="530" text-anchor="middle" font-family="monospace" font-size="36" font-weight="700" fill="#fff">How Bundling Works</text>
-  <text x="600" y="565" text-anchor="middle" font-family="monospace" font-size="16" fill="#666">Interactive visualization of code splitting, chunks &amp; tree shaking</text>
+  <text x="900" y="445" font-family="monospace" font-size="34" font-weight="700" fill="#fff">How Bundling</text>
+  <text x="900" y="485" font-family="monospace" font-size="34" font-weight="700" fill="#fff">Works</text>
+  <text x="900" y="515" font-family="monospace" font-size="13" fill="#666">Code splitting, chunks &amp; tree shaking</text>
+  <text x="900" y="533" font-family="monospace" font-size="13" fill="#666">visualized with a real Rollup bundler</text>
 </svg>
