@@ -17,7 +17,10 @@ interface GraphState {
   nodes: ModuleNode[];
   edges: ImportEdge[];
   bundleResult: BundleResult | null;
+  isBundling: boolean;
   highlightedChunkId: number | null;
+  editingExportsNodeId: string | null;
+  editingImportsEdgeId: string | null;
 
   onNodesChange: OnNodesChange<ModuleNode>;
   onEdgesChange: OnEdgesChange<ImportEdge>;
@@ -29,7 +32,12 @@ interface GraphState {
   setEntryPoint: (nodeId: string) => void;
   toggleEdgeType: (edgeId: string) => void;
   removeEdge: (edgeId: string) => void;
-  runBundler: () => void;
+  updateModuleExports: (nodeId: string, exports: string[]) => void;
+  updateEdgeNamedImports: (edgeId: string, namedImports: string[]) => void;
+  triggerEditExports: (nodeId: string) => void;
+  triggerEditImports: (edgeId: string) => void;
+  clearEditingState: () => void;
+  runBundler: () => Promise<void>;
   clearGraph: () => void;
   loadExample: (nodes: ModuleNode[], edges: ImportEdge[]) => void;
   setHighlightedChunkId: (chunkId: number | null) => void;
@@ -39,7 +47,10 @@ export const useGraphStore = create<GraphState>((set, get) => ({
   nodes: [],
   edges: [],
   bundleResult: null,
+  isBundling: false,
   highlightedChunkId: null,
+  editingExportsNodeId: null,
+  editingImportsEdgeId: null,
 
   onNodesChange: (changes) => {
     set({ nodes: applyNodeChanges(changes, get().nodes) as ModuleNode[] });
@@ -54,7 +65,7 @@ export const useGraphStore = create<GraphState>((set, get) => ({
       ...connection,
       id: `e-${connection.source}-${connection.target}-${Date.now()}`,
       type: 'static-import',
-      data: { importType: 'static' },
+      data: { importType: 'static', namedImports: ['default'] },
     } as ImportEdge;
     set({ edges: addEdge(newEdge, get().edges) as ImportEdge[] });
   },
@@ -65,7 +76,7 @@ export const useGraphStore = create<GraphState>((set, get) => ({
       id,
       type: 'module',
       position: position ?? { x: 100 + Math.random() * 200, y: 100 + Math.random() * 200 },
-      data: { filename: `file${nodeIdCounter}.ts`, isEntry: get().nodes.length === 0 },
+      data: { filename: `file${nodeIdCounter}.ts`, isEntry: get().nodes.length === 0, exports: ['default'] },
     };
     set({ nodes: [...get().nodes, newNode] });
   },
@@ -116,45 +127,77 @@ export const useGraphStore = create<GraphState>((set, get) => ({
     });
   },
 
-  runBundler: () => {
-    const { nodes, edges } = get();
-    const result = runBundler(nodes, edges);
-
-    // Apply chunk colors to nodes
-    const chunkMap = new Map<string, { color: string; chunkId: number }>();
-    for (const chunk of result.chunks) {
-      for (const modId of chunk.modules) {
-        chunkMap.set(modId, { color: chunk.color, chunkId: chunk.id });
-      }
-    }
-
-    const updatedNodes = nodes.map((n) => {
-      const chunkInfo = chunkMap.get(n.id);
-      const isUnreachable = result.unreachableModules.includes(n.id);
-      return {
-        ...n,
-        data: {
-          ...n.data,
-          chunkColor: chunkInfo?.color,
-          chunkId: chunkInfo?.chunkId,
-          isUnreachable,
-        },
-      };
+  updateModuleExports: (nodeId, exports) => {
+    set({
+      nodes: get().nodes.map((n) =>
+        n.id === nodeId ? { ...n, data: { ...n.data, exports } } : n
+      ),
     });
+  },
 
-    set({ nodes: updatedNodes, bundleResult: result });
+  updateEdgeNamedImports: (edgeId, namedImports) => {
+    set({
+      edges: get().edges.map((e) =>
+        e.id === edgeId ? { ...e, data: { ...e.data!, namedImports } } : e
+      ),
+    });
+  },
+
+  triggerEditExports: (nodeId) => {
+    set({ editingExportsNodeId: nodeId, editingImportsEdgeId: null });
+  },
+
+  triggerEditImports: (edgeId) => {
+    set({ editingImportsEdgeId: edgeId, editingExportsNodeId: null });
+  },
+
+  clearEditingState: () => {
+    set({ editingExportsNodeId: null, editingImportsEdgeId: null });
+  },
+
+  runBundler: async () => {
+    const { nodes, edges } = get();
+    set({ isBundling: true });
+
+    try {
+      const result = await runBundler(nodes, edges);
+
+      const chunkMap = new Map<string, { color: string; chunkId: number }>();
+      for (const chunk of result.chunks) {
+        for (const modId of chunk.modules) {
+          chunkMap.set(modId, { color: chunk.color, chunkId: chunk.id });
+        }
+      }
+
+      const updatedNodes = nodes.map((n) => {
+        const chunkInfo = chunkMap.get(n.id);
+        const isUnreachable = result.unreachableModules.includes(n.id);
+        const treeShaking = result.nodeTreeShaking?.get(n.id);
+        return {
+          ...n,
+          data: {
+            ...n.data,
+            chunkColor: chunkInfo?.color,
+            chunkId: chunkInfo?.chunkId,
+            isUnreachable,
+            treeShaking: treeShaking ?? undefined,
+          },
+        };
+      });
+
+      set({ nodes: updatedNodes, bundleResult: result, isBundling: false });
+    } catch {
+      set({ isBundling: false });
+    }
   },
 
   clearGraph: () => {
     nodeIdCounter = 0;
-    set({ nodes: [], edges: [], bundleResult: null, highlightedChunkId: null });
+    set({ nodes: [], edges: [], bundleResult: null, isBundling: false, highlightedChunkId: null, editingExportsNodeId: null, editingImportsEdgeId: null });
   },
 
   loadExample: (nodes, edges) => {
-    // Reset counter
     nodeIdCounter = nodes.length;
-
-    // Auto-layout
     const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges);
 
     set({

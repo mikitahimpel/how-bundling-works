@@ -7,6 +7,7 @@ export function Toolbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const addModule = useGraphStore((s) => s.addModule);
   const runBundler = useGraphStore((s) => s.runBundler);
+  const isBundling = useGraphStore((s) => s.isBundling);
   const clearGraph = useGraphStore((s) => s.clearGraph);
   const loadExample = useGraphStore((s) => s.loadExample);
   const nodes = useGraphStore((s) => s.nodes);
@@ -34,10 +35,10 @@ export function Toolbar() {
 
       <button
         onClick={runBundler}
-        disabled={nodes.length === 0}
+        disabled={nodes.length === 0 || isBundling}
         className="px-3 py-1.5 bg-[#00dc82] hover:bg-[#00c472] disabled:bg-[#222222] disabled:text-[#666666] text-black text-xs font-medium rounded-md transition-colors"
       >
-        Run Bundler
+        {isBundling ? 'Bundling...' : 'Run Bundler'}
       </button>
 
       <div className="relative" ref={dropdownRef}>

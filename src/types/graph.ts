@@ -6,11 +6,17 @@ export interface ModuleNodeData {
   chunkColor?: string;
   chunkId?: number;
   isUnreachable?: boolean;
+  exports?: string[];
+  treeShaking?: {
+    usedExports: string[];
+    unusedExports: string[];
+  };
   [key: string]: unknown;
 }
 
 export interface ImportEdgeData {
   importType: 'static' | 'dynamic';
+  namedImports?: string[];
   [key: string]: unknown;
 }
 
@@ -23,9 +29,15 @@ export interface Chunk {
   modules: string[];
   color: string;
   reason: string;
+  treeShakingStats?: {
+    totalExports: number;
+    usedExports: number;
+    removedExports: number;
+  };
 }
 
 export interface BundleResult {
   chunks: Chunk[];
   unreachableModules: string[];
+  nodeTreeShaking?: Map<string, { usedExports: string[]; unusedExports: string[] }>;
 }
