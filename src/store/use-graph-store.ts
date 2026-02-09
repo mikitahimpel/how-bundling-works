@@ -58,7 +58,7 @@ export const useGraphStore = create<GraphState>((set, get) => ({
         .filter((c) => c.type === 'position' && c.dragging === false)
         .map((c) => c.id)
     );
-    let updatedNodes = applyNodeChanges(changes, get().nodes) as ModuleNode[];
+    const updatedNodes = applyNodeChanges(changes, get().nodes) as ModuleNode[];
     if (dragEndNodeIds.size > 0) {
       set({
         nodes: updatedNodes,
