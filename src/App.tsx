@@ -15,8 +15,7 @@ export default function App() {
   useEffect(() => {
     if (!hasNodes) {
       const example = examples[1];
-      loadExample(example.nodes, example.edges);
-      queueMicrotask(() => runBundler());
+      loadExample(example.nodes, example.edges).then(() => runBundler());
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

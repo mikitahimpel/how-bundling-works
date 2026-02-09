@@ -268,7 +268,8 @@ export function ModuleNode({ id, data }: NodeProps<ModuleNodeType>) {
         </div>
       )}
 
-      <Handle type="source" position={Position.Bottom} className="!bg-[#555] !w-2.5 !h-2.5 !border-0" />
+      <Handle type="source" position={Position.Bottom} id="source-static" className="!bg-[#555] !w-2.5 !h-2.5 !border-0" style={{ left: '40%' }} />
+      <Handle type="source" position={Position.Bottom} id="source-dynamic" className="!bg-[#f59e0b] !w-2.5 !h-2.5 !border-0" style={{ left: '60%' }} />
     </div>
   );
 }

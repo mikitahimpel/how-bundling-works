@@ -7,6 +7,7 @@ import {
 } from '@xyflow/react';
 import type { ImportEdge } from '../../types/graph';
 import { useGraphStore } from '../../store/useGraphStore';
+import { buildEdgePath, getPathMidpoint } from '../../utils/edgePath';
 
 function formatBadgeText(namedImports?: string[]): string {
   if (!namedImports || namedImports.length === 0) return 'import';
@@ -26,14 +27,30 @@ export function StaticImportEdge(props: EdgeProps<ImportEdge>) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
 
-  const [edgePath, labelX, labelY] = getSmoothStepPath({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-    sourcePosition,
-    targetPosition,
-  });
+  let edgePath: string;
+  let labelX: number;
+  let labelY: number;
+
+  if (data?.bendPoints && data.bendPoints.length > 0) {
+    const allPoints = [
+      { x: sourceX, y: sourceY },
+      ...data.bendPoints,
+      { x: targetX, y: targetY },
+    ];
+    edgePath = buildEdgePath(allPoints);
+    const mid = getPathMidpoint(allPoints);
+    labelX = mid.x;
+    labelY = mid.y;
+  } else {
+    [edgePath, labelX, labelY] = getSmoothStepPath({
+      sourceX,
+      sourceY,
+      targetX,
+      targetY,
+      sourcePosition,
+      targetPosition,
+    });
+  }
 
   useEffect(() => {
     if (!isPopoverOpen) return;
@@ -90,6 +107,7 @@ export function StaticImportEdge(props: EdgeProps<ImportEdge>) {
             position: 'absolute',
             transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
             pointerEvents: 'all',
+            zIndex: 1000,
           }}
         >
           <button

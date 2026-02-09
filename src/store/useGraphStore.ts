@@ -39,7 +39,7 @@ interface GraphState {
   clearEditingState: () => void;
   runBundler: () => Promise<void>;
   clearGraph: () => void;
-  loadExample: (nodes: ModuleNode[], edges: ImportEdge[]) => void;
+  loadExample: (nodes: ModuleNode[], edges: ImportEdge[]) => Promise<void>;
   setHighlightedChunkId: (chunkId: number | null) => void;
 }
 
@@ -53,7 +53,21 @@ export const useGraphStore = create<GraphState>((set, get) => ({
   editingImportsEdgeId: null,
 
   onNodesChange: (changes) => {
-    set({ nodes: applyNodeChanges(changes, get().nodes) as ModuleNode[] });
+    const hasDragEnd = changes.some(
+      (c) => c.type === 'position' && c.dragging === false
+    );
+    let updatedNodes = applyNodeChanges(changes, get().nodes) as ModuleNode[];
+    if (hasDragEnd) {
+      set({
+        nodes: updatedNodes,
+        edges: get().edges.map((e) => ({
+          ...e,
+          data: { ...e.data!, bendPoints: undefined },
+        })),
+      });
+      return;
+    }
+    set({ nodes: updatedNodes });
   },
 
   onEdgesChange: (changes) => {
@@ -61,11 +75,13 @@ export const useGraphStore = create<GraphState>((set, get) => ({
   },
 
   onConnect: (connection) => {
+    const isDynamic = connection.sourceHandle === 'source-dynamic';
     const newEdge: ImportEdge = {
       ...connection,
       id: `e-${connection.source}-${connection.target}-${Date.now()}`,
-      type: 'static-import',
-      data: { importType: 'static', namedImports: ['default'] },
+      sourceHandle: isDynamic ? 'source-dynamic' : 'source-static',
+      type: isDynamic ? 'dynamic-import' : 'static-import',
+      data: { importType: isDynamic ? 'dynamic' : 'static', namedImports: ['default'] },
     } as ImportEdge;
     set({ edges: addEdge(newEdge, get().edges) as ImportEdge[] });
   },
@@ -114,6 +130,7 @@ export const useGraphStore = create<GraphState>((set, get) => ({
         return {
           ...e,
           type: newType === 'static' ? 'static-import' : 'dynamic-import',
+          sourceHandle: newType === 'static' ? 'source-static' : 'source-dynamic',
           data: { ...e.data, importType: newType },
         };
       }),
@@ -196,9 +213,9 @@ export const useGraphStore = create<GraphState>((set, get) => ({
     set({ nodes: [], edges: [], bundleResult: null, isBundling: false, highlightedChunkId: null, editingExportsNodeId: null, editingImportsEdgeId: null });
   },
 
-  loadExample: (nodes, edges) => {
+  loadExample: async (nodes, edges) => {
     nodeIdCounter = nodes.length;
-    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges);
+    const { nodes: layoutedNodes, edges: layoutedEdges } = await getLayoutedElements(nodes, edges);
 
     set({
       nodes: layoutedNodes,

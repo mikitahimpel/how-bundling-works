@@ -27,11 +27,12 @@ body {
 }
 
 .react-flow__handle {
-  transition: transform 0.15s ease;
+  transition: width 0.15s ease, height 0.15s ease;
 }
 
 .react-flow__handle:hover {
-  transform: scale(1.4);
+  width: 14px !important;
+  height: 14px !important;
 }
 
 /* Edge label badges */

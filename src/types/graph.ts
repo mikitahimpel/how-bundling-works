@@ -17,6 +17,7 @@ export interface ModuleNodeData {
 export interface ImportEdgeData {
   importType: 'static' | 'dynamic';
   namedImports?: string[];
+  bendPoints?: { x: number; y: number }[];
   [key: string]: unknown;
 }
 
