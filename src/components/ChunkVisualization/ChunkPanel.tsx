@@ -31,7 +31,7 @@ export function ChunkPanel() {
   }
 
   return (
-    <div className="h-full bg-[#111111] md:border-l border-[#1a1a1a] flex flex-col">
+    <div className="h-full bg-[#111111] flex flex-col">
       <div className="p-4 border-b border-[#1a1a1a]">
         <h2 className="text-white font-semibold text-xs uppercase tracking-wider">Chunk Results</h2>
       </div>

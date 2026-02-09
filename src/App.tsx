@@ -25,46 +25,36 @@ export default function App() {
       <div className="h-screen w-screen flex flex-col bg-[#0a0a0a] text-white font-sans">
         <Toolbar />
 
-        {/* Desktop: side-by-side */}
-        <div className="flex-1 hidden md:flex min-h-0">
-          <div className="flex-1 min-w-0">
+        <div className="flex-1 flex flex-col md:flex-row min-h-0">
+          <div className={`flex-1 min-w-0 min-h-0 ${mobileTab !== 'graph' ? 'hidden md:block' : ''}`}>
             <GraphEditor />
           </div>
-          <div className="w-[380px] shrink-0 min-w-0">
+          <div className={`flex-1 md:flex-none md:w-[380px] shrink-0 min-w-0 min-h-0 overflow-y-auto md:overflow-y-visible md:border-l border-[#1a1a1a] ${mobileTab !== 'results' ? 'hidden md:block' : ''}`}>
             <ChunkPanel />
           </div>
         </div>
 
-        {/* Mobile: tabbed */}
-        <div className="flex-1 flex flex-col md:hidden min-h-0">
-          <div className={`flex-1 min-h-0 ${mobileTab === 'graph' ? '' : 'hidden'}`}>
-            <GraphEditor />
-          </div>
-          <div className={`flex-1 min-h-0 overflow-y-auto ${mobileTab === 'results' ? '' : 'hidden'}`}>
-            <ChunkPanel />
-          </div>
-          <div className="flex border-t border-[#1a1a1a] bg-[#111111] shrink-0">
-            <button
-              onClick={() => setMobileTab('graph')}
-              className={`flex-1 py-2.5 text-xs font-medium transition-colors ${
-                mobileTab === 'graph'
-                  ? 'text-white bg-[#1a1a1a]'
-                  : 'text-[#666] hover:text-[#888]'
-              }`}
-            >
-              Graph
-            </button>
-            <button
-              onClick={() => setMobileTab('results')}
-              className={`flex-1 py-2.5 text-xs font-medium transition-colors ${
-                mobileTab === 'results'
-                  ? 'text-white bg-[#1a1a1a]'
-                  : 'text-[#666] hover:text-[#888]'
-              }`}
-            >
-              Results
-            </button>
-          </div>
+        <div className="flex border-t border-[#1a1a1a] bg-[#111111] shrink-0 md:hidden">
+          <button
+            onClick={() => setMobileTab('graph')}
+            className={`flex-1 py-2.5 text-xs font-medium transition-colors ${
+              mobileTab === 'graph'
+                ? 'text-white bg-[#1a1a1a]'
+                : 'text-[#666] hover:text-[#888]'
+            }`}
+          >
+            Graph
+          </button>
+          <button
+            onClick={() => setMobileTab('results')}
+            className={`flex-1 py-2.5 text-xs font-medium transition-colors ${
+              mobileTab === 'results'
+                ? 'text-white bg-[#1a1a1a]'
+                : 'text-[#666] hover:text-[#888]'
+            }`}
+          >
+            Results
+          </button>
         </div>
       </div>
     </ReactFlowProvider>
