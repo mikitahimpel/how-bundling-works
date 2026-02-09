@@ -1,73 +1,42 @@
-# React + TypeScript + Vite
+# How Bundling Works
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive visualization tool that demonstrates how JavaScript bundlers work. Build a module graph, run a real Rollup bundler in the browser, and see code splitting, chunks, and tree shaking in action.
 
-Currently, two official plugins are available:
+![OG Image](public/og-image.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- **Visual module graph editor** - Add modules, define exports, and connect them with static or dynamic imports
+- **Real bundling** - Uses Rollup (via `@rollup/browser`) to bundle your module graph directly in the browser
+- **Code splitting visualization** - See how dynamic imports create separate async chunks, color-coded on the graph
+- **Tree shaking** - Observe which exports are used vs. unused after bundling
+- **Interactive layout** - Drag nodes, edit filenames and exports inline, with auto-layout powered by ELK
+- **Preset examples** - Load example graphs demonstrating common bundling patterns
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React + TypeScript
+- [ReactFlow](https://reactflow.dev/) for the graph editor
+- [Rollup (browser build)](https://rollupjs.org/) for in-browser bundling
+- [ELK.js](https://github.com/kieler/elkjs) for automatic graph layout
+- [Zustand](https://github.com/pmndrs/zustand) for state management
+- [Tailwind CSS](https://tailwindcss.com/) for styling
+- Vite for development and builds
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm install
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Building
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm build
+pnpm preview
 ```
+
+## License
+
+MIT
