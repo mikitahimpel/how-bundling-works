@@ -55,7 +55,7 @@ export const useGraphStore = create<GraphState>((set, get) => ({
   onNodesChange: (changes) => {
     const dragEndNodeIds = new Set(
       changes
-        .filter((c) => c.type === 'position' && c.dragging === false)
+        .filter((c): c is Extract<typeof c, { id: string }> => c.type === 'position' && 'dragging' in c && c.dragging === false)
         .map((c) => c.id)
     );
     const updatedNodes = applyNodeChanges(changes, get().nodes) as ModuleNode[];
